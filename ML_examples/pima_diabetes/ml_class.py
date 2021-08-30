@@ -484,8 +484,8 @@ def multi_roc_auc_plot(X, y, models):
     plt.plot([0, 1], [0, 1],'r--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
-    plt.xlabel('1-Specificity(False Positive Rate)')
-    plt.ylabel('Sensitivity(True Positive Rate)')
+    plt.xlabel('1-Specificity (False Positive Rate)')
+    plt.ylabel('Sensitivity (True Positive Rate)')
     plt.title('Receiver Operating Characteristic')
     plt.legend(loc="lower right")
     plt.show()   # Display
