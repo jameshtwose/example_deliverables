@@ -58,7 +58,7 @@ def plot_decision_boundary(
     h=0.05,
     figsize=(11.7, 8.27),
 ):
-    """
+    r"""
     Generate a simple plot of the decision boundary of a classifier.
     Parameters
     ----------
