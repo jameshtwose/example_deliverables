@@ -25,6 +25,14 @@ Pima
    pima_Sampling_options.ipynb
    pima_Classification.ipynb
 
+Write up
+^^^^^^^^^
+.. raw:: html
+
+   <div id="content">
+      <li><a href="_static/html/pima_write_up.html">Write up for the PIMA Classification</a></li>
+   </div>
+
 
 Search
 ==================
