@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Pima Classification
+        </title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
+            />
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+            />
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script
+            src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="../css/write_ups.css">
+    </head>
+    <body>
+
+        <section id='mainbody'>
+            <h2>
+                Classification of diabetes in people of Pima Indian heritage
+            </h2>
+            <table class="styled-table" data-layout="default">
+                <colgroup>
+                    <col style="width: 161px" />
+                    <col style="width: 598px" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th data-highlight-colour="#e6fcff">
+                            <p><strong>Goal</strong></p>
+                        </th>
+                        <td><p>This dataset is originally from the National
+                                Institute of Diabetes and Digestive and Kidney
+                                Diseases. The objective of the dataset is to
+                                diagnostically predict whether or not a patient
+                                has diabetes, based on certain diagnostic
+                                measurements included in the dataset. Several
+                                constraints were placed on the selection of
+                                these instances from a larger database. In
+                                particular, all patients here are females at
+                                least 21 years old of Pima Indian heritage.</p></td>
+                    </tr>
+                    <tr>
+                        <th data-highlight-colour="#e6fcff">
+                            <p><strong>Opportunities</strong></p>
+                        </th>
+                        <td><p>TODO</p></td>
+                    </tr>
+                    <tr>
+                        <th data-highlight-colour="#e6fcff">
+                            <p><strong>Challenges</strong></p>
+                        </th>
+                        <td><p>Dealing with the class imbalance in the target.</p></td>
+                    </tr>
+                    <tr>
+                        <th data-highlight-colour="#e6fcff">
+                            <p><strong>Value propositions</strong></p>
+                        </th>
+                        <td><p>It is indeed possible to classify diabetes in the
+                                dataset to a high level of performance (median
+                                accuracy in cross-validation = <b>0.85</b>).</p></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <h3>
+                Approach
+            </h3><p>TODO</p>
+            <hr />
+            <h3>
+                Outcome
+            </h3><p>TODO</p>
+            <hr />
+            <h3>
+                References
+            </h3><p>
+                <ul>
+                    <li>Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. <i>Annals of statistics</i>, 1189-1232.</li>
+                    <li>Lundberg, S. M., & Lee, S. I. (2017). A unified approach
+                        to interpreting model predictions. <i>Advances in neural
+                            information processing systems</i>, 30.</li>
+                    <li>Smith, J.W., Everhart, J.E., Dickson, W.C., Knowler,
+                        W.C., &
+                        Johannes, R.S. (1988). Using the ADAP learning algorithm
+                        to
+                        forecast the onset of diabetes mellitus. <i>In
+                            Proceedings of the
+                            Symposium on Computer Applications and Medical Care</i>
+                        (pp.
+                        261--265). IEEE Computer Society Press.
+                    </li>
+                </ul></p>
+            <hr />
+            <h3>
+                Appendix
+            </h3>
+            <p>
+                <section id="appendix-item" class="center">
+                    <h4>Appendix 1: Model Comparison</h4>
+                    <img
+                        src="https://jameshtwose.github.io/example_deliverables/_images/pima_Classification_19_0.png">
+                    <p><i>ROC AUC curves per a range of different models in
+                            order to compare. Model list: Logistic Regression,
+                            Gradient Boosting, K-neighbours,
+                            Support Vector Machine, Gaussian Process, Decision
+                            Tree, Random Forest, Multilayer Perceptron,
+                            AdaBoost, Naive Bayes, Quadratic Discriminant
+                            Analysis.
+                        </i></p>
+                </section>
+                <section id="appendix-item" class="center">
+                    <h4>Appendix 2: SHAP feature importance</h4>
+                    <img
+                        src="https://jameshtwose.github.io/example_deliverables/_images/pima_Classification_27_0.png">
+                    <p><i>Feature importances in the target classification using
+                            SHAP values. Here it can be seen that glucose amount
+                            is the most important feature in classifying
+                            diabetes, and blod pressure is the least importance.</i></p>
+                </section>
+                <section id="appendix-item" class="center">
+                    <h4>Appendix 3: Cross validation metrics</h4>
+                    <img
+                        src="https://jameshtwose.github.io/example_deliverables/_images/pima_Classification_35_0.png">
+                    <p><i>The cross validation metrics of the final model
+                            (Gradient Boosting Classifier), with all of
+                            these metrics the closer to 1, the better.</i></p>
+                </section>
+            </p>
+        </section>
+
+    </body>
+</html>
