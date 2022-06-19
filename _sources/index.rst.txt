@@ -33,6 +33,20 @@ Write up
       <li><a href="_static/html/pima_write_up.html">Write up for the PIMA Classification</a></li>
    </div>
 
+|
+|
+
+Hierarchical Model Examples
+============================
+
+Stress Ecological Momentary Assessment
+--------------------------------------
+.. nbgallery::
+   :caption: Stress EMA Notebooks
+   :name: ema-notebooks
+   :glob:
+
+   ema_EDA.ipynb
 
 Search
 ==================
