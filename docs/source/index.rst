@@ -47,6 +47,7 @@ Stress Ecological Momentary Assessment
    :glob:
 
    ema_EDA.ipynb
+   ema_Catboost_CV.ipynb
 
 Search
 ==================

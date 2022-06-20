@@ -1,0 +1,16 @@
+deepdish >=0.3.6
+joblib >=0.14
+matplotlib >=3.0
+numpy >=1.16
+pandas >=1.0,<1.2
+patsy >=0.5.1
+rpy2 >=3.4.5,<3.5.0 
+scipy >=1.4.0
+seaborn >=0.10.0
+r-base
+r-lme4
+r-lmerTest
+r-emmeans
+
+# Following installing this requirements.txt file install pymer4 using the following command:
+# pip install pymer4
