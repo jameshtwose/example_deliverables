@@ -39,14 +39,15 @@ Write up
 Hierarchical Model Examples
 ============================
 
-Stress Ecological Momentary Assessment
---------------------------------------
+Sleep Quality Ecological Momentary Assessment
+---------------------------------------------
 .. nbgallery::
    :caption: Stress EMA Notebooks
    :name: ema-notebooks
    :glob:
 
    ema_EDA.ipynb
+   ema_Catboost_CV.ipynb
 
 Search
 ==================
