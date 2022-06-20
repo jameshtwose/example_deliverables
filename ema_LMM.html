@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Sleep EMA Linear Mixed Models (LMM) &#8212; example_deliverables  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Sleep EMA CatBoost with Cross Validation" href="ema_Catboost_CV.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Example Deliverables</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption" role="heading"><span class="caption-text">Pima Notebooks</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pima_EDA.html">PIMA diabetes Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pima_Sampling_options.html">PIMA diabetes looking into different sampling options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pima_Classification.html">PIMA diabetes Classification</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Stress EMA Notebooks</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ema_EDA.html">Sleep EMA Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ema_Catboost_CV.html">Sleep EMA CatBoost with Cross Validation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sleep EMA Linear Mixed Models (LMM)</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Sleep EMA Linear Mixed Models (LMM)</a><ul>
+<li><a class="reference internal" href="#Conditional-and-marginal-R-squared">Conditional and marginal R squared</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Sleep-EMA-Linear-Mixed-Models-(LMM)">
+<h1>Sleep EMA Linear Mixed Models (LMM)<a class="headerlink" href="#Sleep-EMA-Linear-Mixed-Models-(LMM)" title="Permalink to this heading">¶</a></h1>
+<p>Replication Data for Wu et al. (2020) “Multi-Modal Data Collection for Measuring Health, Behavior, and Living Environment of Large-Scale Participant Cohorts: Conceptual Framework and Findings from Deployments”: Ecological Momentary Assessment Data (Beiwe)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pymer4</span> <span class="kn">import</span> <span class="n">Lmer</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">diagnostic_plots</span>
+<span class="kn">from</span> <span class="nn">jmspack.utils</span> <span class="kn">import</span> <span class="n">JmsColors</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">&quot;jms_style_sheet&quot;</span> <span class="ow">in</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;jms_style_sheet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/UT1000_ema_wide.csv&quot;</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+      <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;survey.date&quot;</span><span class="p">])})</span>
+      <span class="c1"># .pipe(lambda d: d[d[&quot;survey.date&quot;].str.contains(&quot;2019&quot;)])</span>
+      <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;survey.date&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">&quot;03-15-2019&quot;</span><span class="p">)])</span>
+      <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">&quot;02-14-2019&quot;</span><span class="p">)])</span>
+      <span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;pid&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">])</span>
+      <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">());</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pid</th>
+      <th>content</th>
+      <th>energy</th>
+      <th>lonely</th>
+      <th>refreshed</th>
+      <th>restful</th>
+      <th>sad</th>
+      <th>sleep</th>
+      <th>stress</th>
+      <th>date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1193rv5x</td>
+      <td>3.0</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>2019-02-14</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1193rv5x</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td>2019-02-15</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1193rv5x</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>9.0</td>
+      <td>1.0</td>
+      <td>2019-02-16</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1193rv5x</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>9.0</td>
+      <td>2.0</td>
+      <td>2019-02-17</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1193rv5x</td>
+      <td>3.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>2019-02-18</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4913, 10)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">min</span><span class="p">());</span> <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2019-02-14 00:00:00
+2019-03-15 00:00:00
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 4913 entries, 0 to 4912
+Data columns (total 10 columns):
+ #   Column     Non-Null Count  Dtype
+---  ------     --------------  -----
+ 0   pid        4913 non-null   object
+ 1   content    4913 non-null   float64
+ 2   energy     4913 non-null   float64
+ 3   lonely     4913 non-null   float64
+ 4   refreshed  4913 non-null   float64
+ 5   restful    4913 non-null   float64
+ 6   sad        4913 non-null   float64
+ 7   sleep      4913 non-null   float64
+ 8   stress     4913 non-null   float64
+ 9   date       4913 non-null   datetime64[ns]
+dtypes: datetime64[ns](1), float64(8), object(1)
+memory usage: 384.0+ KB
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>content</th>
+      <th>energy</th>
+      <th>lonely</th>
+      <th>refreshed</th>
+      <th>restful</th>
+      <th>sad</th>
+      <th>sleep</th>
+      <th>stress</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+      <td>4913.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.871565</td>
+      <td>2.134948</td>
+      <td>0.513332</td>
+      <td>1.618563</td>
+      <td>1.834724</td>
+      <td>0.591696</td>
+      <td>6.237737</td>
+      <td>1.175453</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.823113</td>
+      <td>0.830693</td>
+      <td>0.731918</td>
+      <td>0.881945</td>
+      <td>0.858564</td>
+      <td>0.773247</td>
+      <td>1.687056</td>
+      <td>0.882876</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>5.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>6.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>7.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>12.000000</td>
+      <td>3.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;sleep&quot;</span>
+<span class="n">group</span><span class="o">=</span><span class="s2">&quot;pid&quot;</span>
+<span class="n">checkpoint</span><span class="o">=</span><span class="s2">&quot;date&quot;</span>
+<span class="n">feature_list</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/ema_LMM_8_0.png" src="_images/ema_LMM_8_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">melt</span><span class="p">(),</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/ema_LMM_9_0.png" src="_images/ema_LMM_9_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;spearman&quot;</span><span class="p">),</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/ema_LMM_10_0.png" src="_images/ema_LMM_10_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_collection</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">feature_list</span><span class="p">)</span>
+<span class="n">cluster_collection</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;content+energy+lonely+refreshed+restful+sad+stress&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">formula_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> ~ </span><span class="si">{</span><span class="n">cluster_collection</span><span class="si">}</span><span class="s2"> + (1 | </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">) + (1 | </span><span class="si">{</span><span class="n">checkpoint</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Lmer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula_string</span><span class="p">)</span>
+<span class="n">initial_mod_fixed_eff</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">no_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">initial_mod_fixed_eff</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Formula: sleep~content+energy+lonely+refreshed+restful+sad+stress+(1|pid)+(1|date)
+
+Family: gaussian         Inference: parametric
+
+Number of observations: 4913     Groups: {&#39;pid&#39;: 411.0, &#39;date&#39;: 30.0}
+
+Log-likelihood: -8756.933        AIC: 17513.866
+
+Random effects:
+
+                 Name    Var    Std
+pid       (Intercept)  0.710  0.843
+date      (Intercept)  0.046  0.214
+Residual               1.780  1.334
+
+No random effect correlations specified
+
+Fixed effects:
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Estimate</th>
+      <th>2.5_ci</th>
+      <th>97.5_ci</th>
+      <th>SE</th>
+      <th>DF</th>
+      <th>T-stat</th>
+      <th>P-val</th>
+      <th>Sig</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(Intercept)</th>
+      <td>4.929</td>
+      <td>4.690</td>
+      <td>5.169</td>
+      <td>0.122</td>
+      <td>1006.443</td>
+      <td>40.325</td>
+      <td>0.000</td>
+      <td>***</td>
+    </tr>
+    <tr>
+      <th>content</th>
+      <td>-0.064</td>
+      <td>-0.135</td>
+      <td>0.007</td>
+      <td>0.036</td>
+      <td>4733.664</td>
+      <td>-1.766</td>
+      <td>0.077</td>
+      <td>.</td>
+    </tr>
+    <tr>
+      <th>energy</th>
+      <td>0.025</td>
+      <td>-0.035</td>
+      <td>0.085</td>
+      <td>0.031</td>
+      <td>4876.512</td>
+      <td>0.826</td>
+      <td>0.409</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>lonely</th>
+      <td>0.026</td>
+      <td>-0.059</td>
+      <td>0.110</td>
+      <td>0.043</td>
+      <td>4871.830</td>
+      <td>0.596</td>
+      <td>0.551</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>refreshed</th>
+      <td>0.338</td>
+      <td>0.268</td>
+      <td>0.408</td>
+      <td>0.036</td>
+      <td>4755.562</td>
+      <td>9.434</td>
+      <td>0.000</td>
+      <td>***</td>
+    </tr>
+    <tr>
+      <th>restful</th>
+      <td>0.433</td>
+      <td>0.361</td>
+      <td>0.505</td>
+      <td>0.037</td>
+      <td>4766.650</td>
+      <td>11.838</td>
+      <td>0.000</td>
+      <td>***</td>
+    </tr>
+    <tr>
+      <th>sad</th>
+      <td>0.010</td>
+      <td>-0.070</td>
+      <td>0.090</td>
+      <td>0.041</td>
+      <td>4878.341</td>
+      <td>0.237</td>
+      <td>0.813</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>stress</th>
+      <td>-0.040</td>
+      <td>-0.099</td>
+      <td>0.019</td>
+      <td>0.030</td>
+      <td>4885.360</td>
+      <td>-1.327</td>
+      <td>0.184</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_collection</span><span class="o">=</span><span class="s2">&quot;refreshed+restful&quot;</span>
+<span class="n">formula_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> ~ </span><span class="si">{</span><span class="n">cluster_collection</span><span class="si">}</span><span class="s2"> + (1 | </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">) + (1 | </span><span class="si">{</span><span class="n">checkpoint</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Lmer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">formula</span><span class="o">=</span><span class="n">formula_string</span><span class="p">)</span>
+<span class="n">fixed_eff</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">no_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fixed_eff</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Formula: sleep~refreshed+restful+(1|pid)+(1|date)
+
+Family: gaussian         Inference: parametric
+
+Number of observations: 4913     Groups: {&#39;pid&#39;: 411.0, &#39;date&#39;: 30.0}
+
+Log-likelihood: -8747.223        AIC: 17494.446
+
+Random effects:
+
+                 Name    Var    Std
+pid       (Intercept)  0.714  0.845
+date      (Intercept)  0.046  0.214
+Residual               1.780  1.334
+
+No random effect correlations specified
+
+Fixed effects:
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Estimate</th>
+      <th>2.5_ci</th>
+      <th>97.5_ci</th>
+      <th>SE</th>
+      <th>DF</th>
+      <th>T-stat</th>
+      <th>P-val</th>
+      <th>Sig</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(Intercept)</th>
+      <td>4.840</td>
+      <td>4.685</td>
+      <td>4.996</td>
+      <td>0.079</td>
+      <td>228.722</td>
+      <td>61.103</td>
+      <td>0.0</td>
+      <td>***</td>
+    </tr>
+    <tr>
+      <th>refreshed</th>
+      <td>0.339</td>
+      <td>0.270</td>
+      <td>0.409</td>
+      <td>0.035</td>
+      <td>4781.391</td>
+      <td>9.574</td>
+      <td>0.0</td>
+      <td>***</td>
+    </tr>
+    <tr>
+      <th>restful</th>
+      <td>0.429</td>
+      <td>0.357</td>
+      <td>0.500</td>
+      <td>0.036</td>
+      <td>4786.763</td>
+      <td>11.765</td>
+      <td>0.0</td>
+      <td>***</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">diagnostic_plots</span><span class="p">(</span><span class="n">model_fit</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                                         <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                                         <span class="n">limit_cooks_plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                         <span class="n">subplot_adjust_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;wspace&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;hspace&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">}</span>
+                                        <span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The function did not run - this is likely due to multiple random effects being specified&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/ema_LMM_14_0.png" src="_images/ema_LMM_14_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">r2_GLMM</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="n">sigma2_fe</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">design_matrix</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fixef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">sigma2_re</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">ranef_var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;Var&quot;</span><span class="p">]</span>
+    <span class="n">sigma2_ol</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">ranef_var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Residual&quot;</span><span class="p">,</span> <span class="s2">&quot;Var&quot;</span><span class="p">]</span>
+    <span class="n">r2_marginal</span> <span class="o">=</span> <span class="p">(</span><span class="n">sigma2_fe</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma2_fe</span> <span class="o">+</span> <span class="n">sigma2_re</span> <span class="o">+</span> <span class="n">sigma2_ol</span><span class="p">)</span>
+    <span class="n">r2_conditional</span> <span class="o">=</span> <span class="p">(</span><span class="n">sigma2_fe</span> <span class="o">+</span> <span class="n">sigma2_re</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma2_fe</span> <span class="o">+</span> <span class="n">sigma2_re</span> <span class="o">+</span> <span class="n">sigma2_ol</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Marginal_R_squared&quot;</span><span class="p">:</span> <span class="n">r2_marginal</span><span class="p">,</span>
+                        <span class="s2">&quot;Conditional_R_squared&quot;</span><span class="p">:</span> <span class="n">r2_conditional</span><span class="p">},</span>
+                       <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<section id="Conditional-and-marginal-R-squared">
+<h2>Conditional and marginal R squared<a class="headerlink" href="#Conditional-and-marginal-R-squared" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>based on Nakagawa, S., &amp; Schielzeth, H. (2013). A general and simple method for obtaining R2 from generalized linear mixed‐effects models. Methods in ecology and evolution, 4(2), 133-142.</p></li>
+<li><p>Marginal R-squared is the R-squared for just the fixed effects</p></li>
+<li><p>Conditional R-squared is the R-squared for both the fixed effects and random effects</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r2_GLMM</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Marginal_R_squared</th>
+      <th>Conditional_R_squared</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.082767</td>
+      <td>0.34553</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predict_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">_fitted&quot;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">fits</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">predict_df</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                 <span class="n">hue</span><span class="o">=</span><span class="n">group</span><span class="p">,</span>
+                 <span class="n">palette</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">JmsColors</span><span class="o">.</span><span class="n">OFFWHITE</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">predict_df</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())),</span>
+                 <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">predict_df</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">JmsColors</span><span class="o">.</span><span class="n">DARKBLUE</span><span class="p">,</span>
+                 <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">predict_df</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">_fitted&quot;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="n">JmsColors</span><span class="o">.</span><span class="n">PURPLE</span><span class="p">,</span>
+                 <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2"> per user&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">JmsColors</span><span class="o">.</span><span class="n">OFFWHITE</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2"> true&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">JmsColors</span><span class="o">.</span><span class="n">DARKBLUE</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2"> fitted&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">JmsColors</span><span class="o">.</span><span class="n">PURPLE</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/ema_LMM_19_0.png" src="_images/ema_LMM_19_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">predict_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">_fitted&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/ema_LMM_20_0.png" src="_images/ema_LMM_20_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/ema_LMM.nblink.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, James Twose.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

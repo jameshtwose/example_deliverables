@@ -1,0 +1,3 @@
+{
+  "path": "../../hierarchical_models_examples/beiwe_ema/ema_LMM.ipynb"
+}
